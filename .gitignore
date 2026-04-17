@@ -1,0 +1,18 @@
+# Node
+node_modules/
+build/
+.env
+
+# Java
+target/
+*.log
+*.class
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Secrets
