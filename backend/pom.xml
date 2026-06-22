@@ -11,7 +11,7 @@
 	<groupId>com.inventory</groupId>
 	<artifactId>server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<n>server</n>
+	<name>server</name>
 	<description>Inventory Management System - Infosys Springboard Virtual Internship</description>
 
 	<properties>
