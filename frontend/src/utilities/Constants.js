@@ -1,5 +1,4 @@
-export const API_BASE_URL = 'http://localhost:8080';
- 
+export const API_BASE_URL = 'https://inventory-backend-95so.onrender.com';
 export const ROLES = {
   ADMIN:    'ADMIN',
   SUPPLIER: 'SUPPLIER',
