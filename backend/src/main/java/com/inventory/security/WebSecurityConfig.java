@@ -28,7 +28,7 @@ public class WebSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .requestMatchers("/auth/**").permitAll()
+                .authorizeHttpRequests(auth -> auth
                         // Public — no token needed
 //                        .requestMatchers("/auth/register", "/auth/login").permitAll()
                         .requestMatchers("/public/**").permitAll()
