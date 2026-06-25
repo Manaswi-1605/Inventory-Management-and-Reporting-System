@@ -10,41 +10,68 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableMethodSecurity   // enables @PreAuthorize on controller methods if needed later
+@EnableMethodSecurity
 public class WebSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
 
-    public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
-                             AuthenticationProvider authenticationProvider) {
+    public WebSecurityConfig(
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            AuthenticationProvider authenticationProvider) {
+
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.authenticationProvider = authenticationProvider;
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        // Public — no token needed
-//                        .requestMatchers("/auth/register", "/auth/login").permitAll()
-                        .requestMatchers("/public/**").permitAll()
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/api/**").permitAll()
-                        // Role-specific API paths
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/supplier/**").hasAnyRole("SUPPLIER", "ADMIN")
-                        .requestMatchers("/customer/**").hasAnyRole("CUSTOMER", "ADMIN")
-                        // All /api/** endpoints require authentication
-                        .anyRequest().authenticated()
-                )
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.cors(cors -> {});
 
-        return httpSecurity.build();
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http
+            .csrf(csrf -> csrf.disable())
+
+            .cors(cors -> {})
+
+            .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+
+            .authorizeHttpRequests(auth -> auth
+
+                // PUBLIC APIs
+                .requestMatchers("/auth/register").permitAll()
+                .requestMatchers("/auth/login").permitAll()
+
+                // TEST
+                .requestMatchers("/public/**").permitAll()
+
+                // APIs
+                .requestMatchers("/api/**").authenticated()
+
+                // Roles
+                .requestMatchers("/admin/**")
+                    .hasRole("ADMIN")
+
+                .requestMatchers("/supplier/**")
+                    .hasAnyRole("SUPPLIER","ADMIN")
+
+                .requestMatchers("/customer/**")
+                    .hasAnyRole("CUSTOMER","ADMIN")
+
+
+                .anyRequest().authenticated()
+            )
+
+
+            .authenticationProvider(authenticationProvider)
+
+            .addFilterBefore(
+                jwtAuthenticationFilter,
+                UsernamePasswordAuthenticationFilter.class
+            );
+
+
+        return http.build();
     }
 }

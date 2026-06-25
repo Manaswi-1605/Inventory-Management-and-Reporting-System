@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://inventory-backend-95so.onrender.com';
+export const API_BASE_URL = "https://inventory-backend-9oo3.onrender.com";
 export const ROLES = {
   ADMIN:    'ADMIN',
   SUPPLIER: 'SUPPLIER',
