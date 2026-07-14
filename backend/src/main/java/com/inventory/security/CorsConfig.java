@@ -75,7 +75,7 @@ public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration c = new CorsConfiguration();
-        c.setAllowedOrigins(List.of("http://localhost:3000", "https://inventory-management-reporting.netlify.app/"));
+        c.setAllowedOrigins(List.of("http://localhost:3000", "https://inventory-management-reporting.netlify.app"));
         c.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
         c.setAllowedHeaders(List.of("Authorization","Content-Type"));
         c.setExposedHeaders(List.of("Authorization"));
